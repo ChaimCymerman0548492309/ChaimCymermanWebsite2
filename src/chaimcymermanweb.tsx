@@ -35,56 +35,39 @@ import {
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination, Navigation } from "swiper/modules";
+import {  Autoplay, FreeMode } from "swiper/modules";
+
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 import { EmojiEmotions } from "@mui/icons-material";
+import { projects, skills } from "./projects";
+import ProjectsCarousel from "./ProjectsCarousel";
 
 // נתוני פרויקטים
-const projects = [
-  {
-    title: "Student Management Dashboard",
-    desc: "A modern dashboard to track attendance, grades, and reports built with React, Node.js & Jotai.",
-    link: "https://github.com/ChaimCymerman0548492309/student-dashboard",
-    tech: ["React", "Node.js", "MongoDB", "Jotai"],
-    image: "https://source.unsplash.com/random/600x400/?dashboard",
-  },
-  {
-    title: "Task Drag-and-Drop System",
-    desc: "Custom Kanban system with multi-item drag-and-drop and dynamic boards. Built in React.",
-    link: "https://github.com/ChaimCymerman0548492309/task-dnd",
-    tech: ["React", "DnD", "Tailwind", "Firebase"],
-    image: "https://source.unsplash.com/random/600x400/?kanban",
-  },
-  {
-    title: "Military Operations Tracker",
-    desc: "Secure system for tracking military operations with real-time updates.",
-    link: "#",
-    tech: ["Angular", "NestJS", "PostgreSQL", "Docker"],
-    image: "https://source.unsplash.com/random/600x400/?military",
-  },
-];
 
 // נתוני כישורים
-const skills = [
-  {
-    name: "Frontend",
-    items: ["React", "Angular", "TypeScript", "Redux", "MUI"],
-  },
-  { name: "Backend", items: ["Node.js", "NestJS", "GraphQL", "REST API"] },
-  { name: "Databases", items: ["MongoDB", "PostgreSQL", "Firebase"] },
-  { name: "DevOps", items: ["Docker", "CI/CD", "AWS", "Git"] },
-  { name: "Testing", items: ["Jest", "Cypress", "Testing Library"] },
-];
+// const skills = [
+//   {
+//     name: "Frontend",
+//     items: ["React", "Angular", "TypeScript", "Redux", "MUI"],
+//   },
+//   { name: "Backend", items: ["Node.js","Express", "NestJS", "GraphQL", "REST API"] },
+//   { name: "Databases", items: ["MongoDB", "PostgreSQL", "S3" , "Elastic"] },
+//   { name: "DevOps", items: ["Docker", "CI/CD", "OpenShift", "Git"] },
+//   { name: "Testing", items: ["Jest", "Cypress", ] },
+// ];
 
 export default function ChaimCymermanWebsite() {
   const theme = useTheme();
   const controls = useAnimation();
+    const swiperRef = useRef(null);
+
 
   const particlesInit = useCallback(async (engine: any) => {
     await loadFull(engine);
@@ -481,7 +464,9 @@ export default function ChaimCymermanWebsite() {
         </motion.div>
 
         {/* סעיף פרויקטים */}
-        <motion.div
+        <ProjectsCarousel />
+
+        {/* <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
@@ -497,20 +482,22 @@ export default function ChaimCymermanWebsite() {
             </Typography>
 
             <Swiper
-              effect={"coverflow"}
+              ref={swiperRef}
+              loop={true}
+              autoplay={{ delay: 3000, disableOnInteraction: false }}
+              speed={800}
+              effect="coverflow"
               grabCursor={true}
               centeredSlides={true}
-              slidesPerView={"auto"}
+              slidesPerView="auto"
               coverflowEffect={{
-                rotate: 50,
+                rotate: 20,
                 stretch: 0,
                 depth: 100,
                 modifier: 1,
                 slideShadows: true,
               }}
-              pagination={true}
-              navigation={true}
-              modules={[EffectCoverflow, Pagination, Navigation]}
+              modules={[EffectCoverflow, Autoplay]}
               style={{
                 padding: "40px 0",
                 width: "100%",
@@ -519,29 +506,20 @@ export default function ChaimCymermanWebsite() {
               {projects.map((project, index) => (
                 <SwiperSlide
                   key={index}
-                  style={{
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                    width: "300px",
-                    height: "400px",
-                    borderRadius: "16px",
-                  }}
+                  style={{ width: "300px", height: "400px" }}
                 >
-                  <motion.div
-                    whileHover={{ scale: 1.03 }}
-                    style={{ height: "100%" }}
-                  >
+                  <motion.div whileHover={{ scale: 1.03 }}>
                     <Paper
                       sx={{
                         height: "100%",
                         backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(${project.image})`,
                         backgroundSize: "cover",
-                        backgroundPosition: "center",
                         color: "white",
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "flex-end",
                         p: 3,
+                        borderRadius: 4,
                       }}
                     >
                       <Typography variant="h6" fontWeight="bold" gutterBottom>
@@ -563,24 +541,26 @@ export default function ChaimCymermanWebsite() {
                           />
                         ))}
                       </Stack>
-                      <Button
-                        href={project.link}
-                        target="_blank"
-                        variant="contained"
-                        color="primary"
-                        startIcon={<Launch />}
-                        fullWidth
-                      >
-                        View Project
-                      </Button>
+                      {project.link !== "#" && (
+                        <Button
+                          href={project.link}
+                          target="_blank"
+                          variant="contained"
+                          color="primary"
+                          startIcon={<Launch />}
+                          fullWidth
+                        >
+                          View Project
+                        </Button>
+                      )}
                     </Paper>
                   </motion.div>
                 </SwiperSlide>
               ))}
             </Swiper>
           </Box>
-        </motion.div>
-
+          
+        </motion.div> */}
         {/* סעיף ניסיון תעסוקתי */}
         <motion.div
           initial={{ opacity: 0, x: 50 }}
