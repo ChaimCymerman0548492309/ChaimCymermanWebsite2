@@ -209,13 +209,16 @@ export default function ChaimCymermanWebsite() {
               }}
             >
               <Avatar
-                src="https://source.unsplash.com/random/300x300/?portrait"
+                // src="https://source.unsplash.com/random/300x300/?portrait"
+                src="https://media.licdn.com/dms/image/v2/D4D03AQEzeS3rKgT6yQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1695239427856?e=1750896000&v=beta&t=wptwuSMPG1tzO3n6-5_yopq1z9EwESqQVoLKPBuZ-Es"
                 sx={{
                   width: 120,
                   height: 120,
                   mx: "auto",
                   mb: 3,
                   border: "4px solid white",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
                 }}
               />
             </motion.div>
